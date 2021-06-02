@@ -49,24 +49,16 @@ class Solution(object):
         head = point = ListNode(0)
         carry = 0
         while l_node1 or l_node2:
-            new_point = ListNode(0)
-            if not l_node1:
-                sum_ = l_node2.val + carry
-                new_point.val = sum_ % 10
-                carry = sum_ // 10
-                l_node2 = l_node2.next
-            elif not l_node2:
-                sum_ = l_node1.val + carry
-                new_point.val = sum_ % 10
-                carry = sum_ // 10
+            sum_ = 0
+            if l_node1:
+                sum_ += l_node1.val
                 l_node1 = l_node1.next
-            else:
-                sum_ = l_node1.val + l_node2.val + carry
-                new_point.val = sum_ % 10
-                carry = sum_ // 10
-                l_node1 = l_node1.next
-                l_node2 = l_node2.next
 
+            if l_node2:
+                sum_ += l_node2.val
+                l_node2 = l_node2.next
+            new_point = ListNode((sum_ + carry) % 10)
+            carry = (sum_ + carry) // 10
             point.next = new_point
             point = point.next
         if carry:
