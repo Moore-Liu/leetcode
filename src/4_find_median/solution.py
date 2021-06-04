@@ -72,9 +72,46 @@ class Solution(object):
         else:
             return float((heapq.heappop(h) + heapq.heappop(h)) / 2)
 
+    @staticmethod
+    def find_median_sorted_arrays_2(nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: float
+        """
+        index1, index2 = 0, 0
+
+        tmp = []
+        for i in range((len(nums1) + len(nums2)) // 2 + 1):
+            if index1 == len(nums1):
+                tmp.append(nums2[index2])
+                index2 += 1
+            elif index2 == len(nums2):
+                tmp.append(nums1[index1])
+                index1 += 1
+            else:
+                if nums1[index1] < nums2[index2]:
+                    tmp.append(nums1[index1])
+                    index1 += 1
+                else:
+                    tmp.append(nums2[index2])
+                    index2 += 1
+            i += 1
+
+        if (len(nums1) + len(nums2)) % 2 == 1:
+            return float(tmp[-1])
+        else:
+            return float(tmp[-1] + tmp[-2]) / 2
+
 
 if __name__ == '__main__':
     nums1 = [1, 2]
     nums2 = [3, 4]
     result = Solution.find_median_sorted_arrays(nums1, nums2)
     assert result == float(2.5)
+
+    nums1 = [1, 5]
+    nums2 = [3, 4, 7]
+    result2 = Solution.find_median_sorted_arrays_2(nums1, nums2)
+    print(result2)
+    assert result2 == float(4)
